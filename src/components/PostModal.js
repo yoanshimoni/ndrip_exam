@@ -43,7 +43,6 @@ const PostModal = ({ setShowModal, postId, userId }) => {
   const [title, setTitle] = useState(null);
   const [body, setBody] = useState(null);
 
-  // assuming that there are many posts and we prefer to find the post asynchronously
   useEffect(() => {
     const post = postList[userId].find((post) => post.id === postId);
     if (post) {
@@ -54,8 +53,8 @@ const PostModal = ({ setShowModal, postId, userId }) => {
 
   return (
     <>
-      {title !== null && body !== null ? (
-        <ModalCard>
+      <ModalCard>
+        {title !== null && body !== null ? (
           <Container>
             <Input
               placeHolder={title}
@@ -85,8 +84,10 @@ const PostModal = ({ setShowModal, postId, userId }) => {
               </Button>
             </Container>
           </Container>
-        </ModalCard>
-      ) : null}
+        ) : (
+          <h2>Loading Post...</h2>
+        )}
+      </ModalCard>
     </>
   );
 };
