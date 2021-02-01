@@ -29,7 +29,7 @@ const Button = styled.button`
     opacity: 0.7;
   }
 `;
-const Input = styled.input`
+const Input = styled.textarea`
   height: 100px;
   width: 90%;
 `;
@@ -58,13 +58,11 @@ const PostModal = ({ setShowModal, postId, userId }) => {
         <ModalCard>
           <Container>
             <Input
-              type="text"
               placeHolder={title}
               value={title}
               onChange={(event) => setTitle(event.target.value)}
             />
             <Input
-              type="text"
               placeHolder={body}
               value={body}
               onChange={(event) => setBody(event.target.value)}
