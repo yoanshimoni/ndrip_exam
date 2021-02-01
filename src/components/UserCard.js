@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { GiCancel } from "react-icons/gi";
+import { Context as UserContext } from "../context/UserContext";
 
 const StyledCard = styled.div`
   display: flex;
@@ -22,7 +23,7 @@ const RemoveButton = styled.div`
 `;
 
 const UserCard = ({
-  id,
+  userId,
   name,
   username,
   email,
@@ -31,13 +32,20 @@ const UserCard = ({
   company,
   onUserClick,
 }) => {
+  const { removeUser } = useContext(UserContext);
+
   return (
     <StyledCard
       onClick={() => {
-        onUserClick(id);
+        onUserClick(userId);
       }}
     >
-      <RemoveButton onClick={() => {}}>
+      <RemoveButton
+        onClick={() => {
+          console.log(`user id in card: ${userId}`);
+          removeUser(userId);
+        }}
+      >
         <GiCancel size="25px" />
       </RemoveButton>
       <p>{name}</p>

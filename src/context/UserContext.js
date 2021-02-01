@@ -22,6 +22,17 @@ const userReducer = (state, action) => {
         },
       };
     }
+    case "remove_user": {
+      return {
+        userList: [
+          ...state.userList.filter((user) => user.id !== action.payload),
+        ],
+        postList: {
+          ...state.postList,
+          [action.payload]: undefined,
+        },
+      };
+    }
     default:
       return state;
   }
@@ -49,8 +60,13 @@ const removePost = (dispatch) => (userId, postId) => {
   dispatch({ type: "remove_post", payload: { userId, postId } });
 };
 
+const removeUser = (dispatch) => (userId) => {
+  console.log(`user id in context: ${userId}`);
+  dispatch({ type: "remove_user", payload: userId });
+};
+
 export const { Context, Provider } = createDateContext(
   userReducer,
-  { getUsers, getPosts, removePost },
+  { getUsers, getPosts, removePost, removeUser },
   { userList: [], postList: {} }
 );

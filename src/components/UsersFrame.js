@@ -28,7 +28,7 @@ const UsersFrame = ({ onUserClick }) => {
               lng={item.address.geo.lng}
               company={item.company.name}
               onUserClick={onUserClick}
-              id={item.id}
+              userId={item.id}
             />
           ))}
         </Container>
