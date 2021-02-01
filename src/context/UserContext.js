@@ -33,6 +33,19 @@ const userReducer = (state, action) => {
         },
       };
     }
+    case "edit_post": {
+      return {
+        userList: [...state.userList],
+        postList: {
+          ...state.postList,
+          [action.payload.userId]: [
+            ...state.postList[action.payload.userId].map((post) => {
+              return post.id === action.payload.id ? action.payload : post;
+            }),
+          ],
+        },
+      };
+    }
     default:
       return state;
   }
@@ -65,8 +78,12 @@ const removeUser = (dispatch) => (userId) => {
   dispatch({ type: "remove_user", payload: userId });
 };
 
+const editPost = (dispatch) => (title, body, userId, postId) => {
+  dispatch({ type: "edit_post", payload: { title, body, userId, id: postId } });
+};
+
 export const { Context, Provider } = createDateContext(
   userReducer,
-  { getUsers, getPosts, removePost, removeUser },
+  { getUsers, getPosts, removePost, removeUser, editPost },
   { userList: [], postList: {} }
 );

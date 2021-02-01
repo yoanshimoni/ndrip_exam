@@ -36,37 +36,48 @@ const Input = styled.input`
 
 const PostModal = ({ setShowModal, postId, userId }) => {
   const {
+    editPost,
     state: { postList },
   } = useContext(UserContext);
 
-  const [title, setTitle] = useState("");
-  const [body, setBody] = useState("");
+  const [title, setTitle] = useState(null);
+  const [body, setBody] = useState(null);
 
+  // assuming that there are many posts and we prefer to find the post asynchronously
   useEffect(() => {
-    const { title, body } = postList[userId].find((post) => post.id === postId);
-    setTitle(title);
-    setBody(body);
+    const post = postList[userId].find((post) => post.id === postId);
+    if (post) {
+      setTitle(post.title);
+      setBody(post.body);
+    }
   }, [postId]);
 
   return (
     <>
-      {title || body ? (
+      {title !== null && body !== null ? (
         <ModalCard>
           <Container>
             <Input
               type="text"
               placeHolder={title}
               value={title}
-              onChange={(newTitle) => setTitle(newTitle)}
+              onChange={(event) => setTitle(event.target.value)}
             />
             <Input
               type="text"
               placeHolder={body}
               value={body}
-              onChange={(newBody) => setBody(newBody)}
+              onChange={(event) => setBody(event.target.value)}
             />
             <Container>
-              <Button onClick={() => {}}>Update</Button>
+              <Button
+                onClick={() => {
+                  editPost(title, body, userId, postId);
+                  setShowModal({ isTrue: false, postId: null, userId: null });
+                }}
+              >
+                Update
+              </Button>
               <Button
                 onClick={() => {
                   setShowModal({ isTrue: false, postId: null, userId: null });
