@@ -6,10 +6,10 @@ const StyledCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+
   background-color: #f0f8ff;
   margin: 5px;
-  min-width: 22%;
+  min-width: 15%;
   border: 1px solid black;
   &:hover {
     cursor: pointer;
@@ -21,16 +21,30 @@ const RemoveButton = styled.div`
   align-self: flex-end;
 `;
 
-const UserCard = ({ name, userName, email, coordinates, companyName }) => {
+const UserCard = ({
+  id,
+  name,
+  username,
+  email,
+  lat,
+  lng,
+  company,
+  onUserClick,
+}) => {
   return (
-    <StyledCard onClick={() => {}}>
+    <StyledCard
+      onClick={() => {
+        onUserClick(id);
+      }}
+    >
       <RemoveButton onClick={() => {}}>
         <GiCancel size="25px" />
       </RemoveButton>
-      <p>{`${name} (${userName})`}</p>
+      <p>{name}</p>
+      <p>{`(${username})`}</p>
       <p>{email}</p>
-      <p>{coordinates}</p>
-      <p>{companyName}</p>
+      <p>{`lat: ${lat}  lng: ${lng}`}</p>
+      <p>{company}</p>
     </StyledCard>
   );
 };

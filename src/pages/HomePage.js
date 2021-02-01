@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import UsersFrame from "../components/UsersFrame";
 import PostsFrame from "../components/PostsFrame";
+import { Context as UserContext } from "../context/UserContext";
 
 const Container = styled.div`
   display: flex;
@@ -10,10 +11,36 @@ const Container = styled.div`
 `;
 
 const HomePage = () => {
+  const [showPosts, setShowPosts] = useState({ isTrue: false, userId: null });
+  const {
+    getUsers,
+    getPosts,
+    state: { postList },
+  } = useContext(UserContext);
+
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  useEffect(() => {
+    if (
+      showPosts.isTrue &&
+      showPosts.userId !== null &&
+      !postList[showPosts.userId] // we could remove this line if we prefer to fetch again from our db on every click, but it will require fetching - network latency, and deletes/edits of the state will not remain
+    ) {
+      getPosts(showPosts.userId);
+    }
+  }, [showPosts.userId]);
+
+  console.log(showPosts);
   return (
     <Container>
-      <UsersFrame usersList={"usersList"} />
-      <PostsFrame usersList={"PostsList"} />
+      <UsersFrame
+        onUserClick={(userId) => {
+          setShowPosts({ isTrue: true, userId: userId });
+        }}
+      />
+      {showPosts.isTrue && <PostsFrame userId={showPosts.userId} />}
     </Container>
   );
 };

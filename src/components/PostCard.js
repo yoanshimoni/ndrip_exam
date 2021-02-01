@@ -1,15 +1,15 @@
-import React from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { GiCancel } from "react-icons/gi";
+import { Context as UserContext } from "../context/UserContext";
 
 const StyledCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background-color: #fffff0;
   margin: 5px;
-  min-width: 22%;
+  width: 22%;
   border: 1px solid black;
   &:hover {
     cursor: pointer;
@@ -21,14 +21,26 @@ const RemoveButton = styled.div`
   align-self: flex-end;
 `;
 
-const PostCard = ({ title, body }) => {
+const Content = styled.div`
+  text-align: center;
+`;
+
+const PostCard = ({ userId, postId, title, body }) => {
+  const { removePost } = useContext(UserContext);
+
   return (
     <StyledCard onClick={() => {}}>
-      <RemoveButton onClick={() => {}}>
+      <RemoveButton
+        onClick={() => {
+          removePost(userId, postId);
+        }}
+      >
         <GiCancel size="25px" />
       </RemoveButton>
-      <p>{title}</p>
-      <p>{body}</p>
+      <Content>
+        <h4>{title}</h4>
+        <p>{body}</p>
+      </Content>
     </StyledCard>
   );
 };
