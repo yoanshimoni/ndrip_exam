@@ -7,7 +7,6 @@ const StyledCard = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   background-color: #f0f8ff;
   margin: 5px;
   min-width: 15%;

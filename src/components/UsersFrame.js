@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import UserCard from "./UserCard";
 import { Context as UserContext } from "../context/UserContext";

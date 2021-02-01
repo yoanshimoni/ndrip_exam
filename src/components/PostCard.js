@@ -25,11 +25,15 @@ const Content = styled.div`
   text-align: center;
 `;
 
-const PostCard = ({ userId, postId, title, body }) => {
+const PostCard = ({ onPostClick, userId, postId, title, body }) => {
   const { removePost } = useContext(UserContext);
 
   return (
-    <StyledCard onClick={() => {}}>
+    <StyledCard
+      onClick={() => {
+        onPostClick(postId, userId);
+      }}
+    >
       <RemoveButton
         onClick={() => {
           removePost(userId, postId);
@@ -37,6 +41,7 @@ const PostCard = ({ userId, postId, title, body }) => {
       >
         <GiCancel size="25px" />
       </RemoveButton>
+
       <Content>
         <h4>{title}</h4>
         <p>{body}</p>

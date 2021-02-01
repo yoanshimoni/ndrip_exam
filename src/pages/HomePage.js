@@ -25,7 +25,7 @@ const HomePage = () => {
   useEffect(() => {
     if (
       showPosts.isTrue &&
-      showPosts.userId !== null &&
+      showPosts.userId &&
       !postList[showPosts.userId] // we could remove this line if we prefer to fetch again from our db on every click, but it will require fetching - network latency, and deletes/edits of the state will not remain
     ) {
       getPosts(showPosts.userId);

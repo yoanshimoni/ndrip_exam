@@ -1,18 +1,26 @@
-import React from "react";
+import React, { useContext, useState, useEffect } from "react";
 import styled from "styled-components";
+import { Context as UserContext } from "../context/UserContext";
 
-const StyledCard = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+const ModalCard = styled.div`
   background-color: #fff0f5;
   margin: 5px;
-  min-width: 22%;
+  width: 22%;
   border: 1px solid black;
-  display: ${(props) => (props.showModal === true ? "block" : "none")};
+  display: block;
+  position: fixed;
+  bottom: 0;
+  width: 40%;
+  height: 50%;
+  z-index: 1;
+  opacity: 0.9;
 `;
 
+const Container = styled.div`
+  diaplay: flex;
+  flex-direction: column;
+  margin: 5px;
+`;
 const Button = styled.button`
   margin: 3px;
   background-color: #ccccff;
@@ -21,14 +29,56 @@ const Button = styled.button`
     opacity: 0.7;
   }
 `;
-const PostModal = ({ title, body }) => {
+const Input = styled.input`
+  height: 100px;
+  width: 90%;
+`;
+
+const PostModal = ({ setShowModal, postId, userId }) => {
+  const {
+    state: { postList },
+  } = useContext(UserContext);
+
+  const [title, setTitle] = useState("");
+  const [body, setBody] = useState("");
+
+  useEffect(() => {
+    const { title, body } = postList[userId].find((post) => post.id === postId);
+    setTitle(title);
+    setBody(body);
+  }, [postId]);
+
   return (
-    <StyledCard>
-      <p>{title}</p>
-      <p>{body}</p>
-      <Button onClick={() => {}}>Update</Button>
-      <Button onClick={() => {}}>Cancel</Button>
-    </StyledCard>
+    <>
+      {title || body ? (
+        <ModalCard>
+          <Container>
+            <Input
+              type="text"
+              placeHolder={title}
+              value={title}
+              onChange={(newTitle) => setTitle(newTitle)}
+            />
+            <Input
+              type="text"
+              placeHolder={body}
+              value={body}
+              onChange={(newBody) => setBody(newBody)}
+            />
+            <Container>
+              <Button onClick={() => {}}>Update</Button>
+              <Button
+                onClick={() => {
+                  setShowModal({ isTrue: false, postId: null, userId: null });
+                }}
+              >
+                Cancel
+              </Button>
+            </Container>
+          </Container>
+        </ModalCard>
+      ) : null}
+    </>
   );
 };
 export default PostModal;
