@@ -74,7 +74,6 @@ const removePost = (dispatch) => (userId, postId) => {
 };
 
 const removeUser = (dispatch) => (userId) => {
-  console.log(`user id in context: ${userId}`);
   dispatch({ type: "remove_user", payload: userId });
 };
 

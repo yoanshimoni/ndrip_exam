@@ -42,7 +42,6 @@ const UserCard = ({
     >
       <RemoveButton
         onClick={() => {
-          console.log(`user id in card: ${userId}`);
           removeUser(userId);
         }}
       >
