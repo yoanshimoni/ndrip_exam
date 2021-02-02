@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import { Context as UserContext } from "../context/UserContext";
 
@@ -35,7 +35,6 @@ const Input = styled.textarea`
 `;
 
 const PostModal = ({ setShowModal, postId, userId }) => {
-  console.log("model render");
   const {
     editPost,
     state: { postList },
@@ -43,6 +42,7 @@ const PostModal = ({ setShowModal, postId, userId }) => {
 
   const [title, setTitle] = useState(null);
   const [body, setBody] = useState(null);
+  const inputRef = useRef([]);
 
   useEffect(() => {
     if (postList[userId]) {
@@ -54,17 +54,31 @@ const PostModal = ({ setShowModal, postId, userId }) => {
     }
   }, [postId]);
 
+  const onKeyPress = (e, index) => {
+    if (e.key === "Enter") {
+      inputRef.current[index].focus();
+    }
+  };
+
   return (
     <>
       {title !== null && body !== null ? (
         <ModalCard>
           <Container>
             <Input
+              ref={(el) => (inputRef.current[0] = el)}
+              onKeyPress={(e) => {
+                onKeyPress(e, 1);
+              }}
               placeHolder={title}
               value={title}
               onChange={(event) => setTitle(event.target.value)}
             />
             <Input
+              ref={(el) => (inputRef.current[1] = el)}
+              onKeyPress={(e) => {
+                onKeyPress(e, 0);
+              }}
               placeHolder={body}
               value={body}
               onChange={(event) => setBody(event.target.value)}
