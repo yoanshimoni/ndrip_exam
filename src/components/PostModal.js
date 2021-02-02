@@ -35,6 +35,7 @@ const Input = styled.textarea`
 `;
 
 const PostModal = ({ setShowModal, postId, userId }) => {
+  console.log("model render");
   const {
     editPost,
     state: { postList },
@@ -44,17 +45,19 @@ const PostModal = ({ setShowModal, postId, userId }) => {
   const [body, setBody] = useState(null);
 
   useEffect(() => {
-    const post = postList[userId].find((post) => post.id === postId);
-    if (post) {
-      setTitle(post.title);
-      setBody(post.body);
+    if (postList[userId]) {
+      const post = postList[userId].find((post) => post.id === postId);
+      if (post) {
+        setTitle(post.title);
+        setBody(post.body);
+      }
     }
   }, [postId]);
 
   return (
     <>
-      <ModalCard>
-        {title !== null && body !== null ? (
+      {title !== null && body !== null ? (
+        <ModalCard>
           <Container>
             <Input
               placeHolder={title}
@@ -84,10 +87,8 @@ const PostModal = ({ setShowModal, postId, userId }) => {
               </Button>
             </Container>
           </Container>
-        ) : (
-          <h2>Loading Post...</h2>
-        )}
-      </ModalCard>
+        </ModalCard>
+      ) : null}
     </>
   );
 };

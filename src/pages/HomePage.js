@@ -15,11 +15,13 @@ const HomePage = () => {
   const {
     getUsers,
     getPosts,
-    state: { postList },
+    state: { userList, postList },
   } = useContext(UserContext);
 
   useEffect(() => {
-    getUsers();
+    if (!userList.length) {
+      getUsers();
+    }
   }, []);
 
   useEffect(() => {
@@ -28,6 +30,7 @@ const HomePage = () => {
       showPosts.userId &&
       !postList[showPosts.userId] // we could remove this line if we prefer to fetch again from our db on every click, but it will require fetching - network latency, and deletes/edits of the state will not remain
     ) {
+      console.log("getposts");
       getPosts(showPosts.userId);
     }
   }, [showPosts.userId]);

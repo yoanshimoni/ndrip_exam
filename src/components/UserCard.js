@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import styled from "styled-components";
 import { GiCancel } from "react-icons/gi";
+import { Link } from "react-router-dom";
 import { Context as UserContext } from "../context/UserContext";
 
 const StyledCard = styled.div`
@@ -50,7 +51,7 @@ const UserCard = ({
       <p>{name}</p>
       <p>{`(${username})`}</p>
       <p>{email}</p>
-      <p>{`lat: ${lat}  lng: ${lng}`}</p>
+      <Link to={`/map/${lat}/${lng}`}>{`${lat} - ${lng}`}</Link>
       <p>{company}</p>
     </StyledCard>
   );
